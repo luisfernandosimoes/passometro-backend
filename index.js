@@ -4,8 +4,13 @@ const cors = require("cors");
 const { gerarPassometro } = require("./services/gerarPassometro");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));
+
+/* =========================
+   ROTAS
+========================= */
 
 app.post("/api/gerar-passometro", async (req, res) => {
   try {
@@ -30,6 +35,20 @@ app.post("/api/gerar-passometro", async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log("Backend rodando em http://localhost:3001");
+/* =========================
+   ROTA DE SAÚDE (IMPORTANTE)
+========================= */
+
+app.get("/", (req, res) => {
+  res.send("Passômetro Backend OK");
+});
+
+/* =========================
+   SERVIDOR (RENDER)
+========================= */
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
+  console.log(`Backend rodando na porta ${PORT}`);
 });
