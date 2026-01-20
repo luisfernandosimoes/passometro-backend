@@ -46,43 +46,79 @@ IDENTIFICAÇÃO
 PROBLEMAS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-- Listar APENAS problemas ATIVOS.
-- Uma única linha.
-- Separar por " | ".
+- Listar TODOS os problemas CLINICAMENTE RELEVANTES mencionados na evolução.
+- NÃO eliminar diagnósticos diferenciais, hipóteses ou problemas descritos como descartados.
+- Retornar UMA ÚNICA STRING.
+- NÃO usar quebras de linha.
+- NÃO criar listas, sublistas ou estruturas.
+
+🔹 SEPARAÇÃO ENTRE PROBLEMAS:
+- Problemas PRINCIPAIS devem ser separados EXCLUSIVAMENTE por " | ".
+- O separador "|" NUNCA deve ser usado para subproblemas.
+
+🔹 SUBPROBLEMAS / HIPÓTESES:
+- Subproblemas DEVEM estar associados ao problema principal correspondente.
+- Subproblemas NÃO devem ser separados por " | ".
+- Cada subproblema DEVE iniciar com "~ ".
+- Subproblemas devem vir LOGO APÓS o problema principal.
+- Podem existir vários subproblemas em sequência.
+- Hipóteses investigadas ou diagnósticos descartados DEVEM ser mantidos se constarem no texto original.
+
+✅ Exemplo CORRETO:
+"ITR ~ Opacidades em vidro fosco disseminadas bilateralmente com broncograma aéreo ~ Pneumonia bacteriana? ~ Pneumonia viral? | Síndrome torácica aguda - descartada | Anemia falciforme"
+
+❌ Exemplo PROIBIDO:
+"ITR | ~ Pneumonia bacteriana?"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 HDA
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 OBJETIVO:
-Descrever o MOTIVO DO INTERNAMENTO EM UTI e o QUADRO CLÍNICO DO PACIENTE NO MOMENTO DA ADMISSÃO.
+Gerar a HDA como se um médico intensivista estivesse APRESENTANDO o paciente durante o round da UTI.
 
-A HDA DEVE:
-- Indicar o diagnóstico ou síndrome principal que motivou a admissão em UTI.
-- Descrever, quando disponível, o quadro clínico da admissão, priorizando:
-  - dispneia
-  - dessaturação / hipoxemia
-  - instabilidade hemodinâmica
-  - rebaixamento do nível de consciência
-  - convulsão, síncope, PCR ou outros eventos agudos
-- Indicar se houve necessidade imediata de suporte:
-  - IOT / VM
-  - DVA
-  - oxigenoterapia de alto fluxo
-- Informar se o quadro foi de instalação súbita ou progressiva, quando descrito.
-- Datas PODEM ser mencionadas se estiverem explícitas no texto, mas NÃO são o foco.
+A HDA NÃO é um resumo do texto bruto.
+A HDA é uma EXPLICAÇÃO clínica e sintética do motivo da internação em UTI.
 
-A HDA NÃO DEVE:
-- listar exames laboratoriais
-- listar valores numéricos
-- listar medicamentos
-- narrar evolução diária ou cronologia extensa
-- ser genérica ou excessivamente curta a ponto de perder contexto clínico
+PENSE DA SEGUINTE FORMA (OBRIGATÓRIO):
+Antes de escrever a HDA, pergunte-se:
+“Se eu NÃO disser isso no round, o colega perde entendimento do caso?”
 
-FORMATO:
-- Texto curto (1–2 frases, no máximo)
-- Linguagem objetiva
-- Estilo de passagem de plantão / round
+Somente informações que passem por esse filtro podem entrar na HDA.
+
+FORMATO OBRIGATÓRIO:
+- Retornar UMA ÚNICA STRING.
+- Cada tópico DEVE ser separado EXCLUSIVAMENTE por " || ".
+- NÃO usar quebras de linha.
+- NÃO usar marcadores visuais.
+- Cada tópico deve conter UMA IDEIA CLÍNICA COMPLETA.
+
+O QUE INCLUIR (APENAS SE FOR RELEVANTE):
+- Quadro clínico inicial que motivou a procura por atendimento.
+- Eventos importantes no PA ou na enfermaria que levaram à UTI.
+- Motivo OBJETIVO da admissão ou readmissão em UTI.
+- Condutas iniciais relevantes no PA/enfermaria (ex.: volume, suporte ventilatório, drogas).
+- Estado clínico relevante na chegada à UTI.
+- Exames de imagem ou procedimentos APENAS se mudaram hipótese diagnóstica ou conduta.
+- Comorbidades que AJUDEM a entender o quadro atual.
+- TODAS as medicações de uso contínuo descritas no texto (listar, sem interpretar).
+
+O QUE NÃO INCLUIR (PROIBIDO):
+- Exame físico sistematizado por aparelhos.
+- Sinais vitais isolados que não mudaram decisão.
+- Evolução diária detalhada.
+- Exames laboratoriais ou exames normais sem impacto clínico.
+- Informações redundantes ou repetidas.
+- Linguagem narrativa de prontuário (“relata”, “nega”, “apresentou”).
+
+SÍNTESE (OBRIGATÓRIO):
+- Agrupar achados relacionados em um único tópico.
+- Condensar achados negativos relevantes em uma única frase.
+- Eliminar verbos fracos ou narrativos.
+- Priorizar eventos, estados clínicos e decisões.
+
+EXEMPLO DE ESTILO (NÃO COPIAR, APENAS IMITAR O NÍVEL DE SÍNTESE):
+"Paciente com anemia falciforme, admitido por dispneia e dessaturação de início agudo, com suspeita de síndrome torácica aguda || Evoluiu no PA com hipotensão e necessidade de suporte respiratório || Admitido em UTI para manejo de insuficiência respiratória || Medicações de uso contínuo: ácido fólico, hidroxiureia, AAS"
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EVOLUÇÃO CLÍNICA / INTERCORRÊNCIAS
@@ -182,5 +218,4 @@ ESTRUTURA FINAL (NUNCA ALTERAR)
 TEXTO DE EVOLUÇÃO:
 <<<COLE AQUI>>>
 `;
-
 module.exports = PROMPT_EVOLUCAO;

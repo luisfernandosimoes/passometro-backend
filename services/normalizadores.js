@@ -6,7 +6,7 @@ function limpar(texto) {
 }
 
 /* =====================================================
-   CONTROLES — CHECKPOINT 13.3 + BLINDAGEM BH
+   CONTROLES — CHECKPOINT 14.0 (ADM CORRIGIDO)
 ===================================================== */
 
 function normalizarControle(linha) {
@@ -52,17 +52,18 @@ function normalizarControle(linha) {
   const SAT = intervalo("SAT", /SAT\s*(\d+)[^\d]+(\d+)/i);
   const HGT = intervalo("HGT", /HGT\s*(\d+)[^\d]+(\d+)/i);
 
+  /* ===== ADM — SOMENTE TOTAL EXPLÍCITO, SEM UNIDADE ===== */
   let ADM = null;
-  const admVals = [...texto.matchAll(/(\d+)\s*ml/gi)]
-    .map(m => parseInt(m[1], 10))
-    .filter(n => !isNaN(n));
-  if (admVals.length) {
-    ADM = `ADM ${admVals.reduce((a, b) => a + b, 0)} ml`;
+  const admMatch = texto.match(
+    /\bADM\b\s*(total\s*)?(\d{3,5})\b/i
+  );
+  if (admMatch) {
+    ADM = `ADM ${admMatch[2]}`;
   }
 
   let DU = null;
   const duMatch = texto.match(/DU\s*(\d+)/i);
-  if (duMatch) DU = `DU ${duMatch[1]} ml`;
+  if (duMatch) DU = `DU ${duMatch[1]}`;
 
   /* ===== BLINDAGEM DEFINITIVA DO BH ===== */
   let BH = null;
@@ -72,9 +73,9 @@ function normalizarControle(linha) {
       bhMatch[1].replace(/\s+/g, "")
     );
     if (!Number.isNaN(valorNumerico)) {
-      if (valorNumerico > 0) BH = `BH +${valorNumerico} ml`;
-      else if (valorNumerico < 0) BH = `BH ${valorNumerico} ml`;
-      else BH = "BH 0 ml";
+      if (valorNumerico > 0) BH = `BH +${valorNumerico}`;
+      else if (valorNumerico < 0) BH = `BH ${valorNumerico}`;
+      else BH = "BH 0";
     }
   }
 
@@ -233,4 +234,26 @@ module.exports = {
   normalizarControle,
   normalizarLaboratorio,
   normalizarGasometria,
+  normalizarHDA, // 🔹 NOVO
 };
+
+/* =====================================================
+   HDA — NORMALIZAÇÃO EM TÓPICOS
+===================================================== */
+
+function normalizarHDA(texto) {
+  if (!texto || typeof texto !== "string") return texto;
+
+  // Se não houver delimitador, retorna texto limpo
+  if (!texto.includes("||")) {
+    return texto.trim();
+  }
+
+  const topicos = texto
+    .split("||")
+    .map(t => t.trim())
+    .filter(Boolean);
+
+  // Renderização final: uma linha por tópico, com ▸
+  return topicos.map(t => `▸ ${t}`).join("\n");
+}

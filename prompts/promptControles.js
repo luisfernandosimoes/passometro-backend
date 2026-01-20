@@ -45,7 +45,7 @@ CONTROLES – REGRAS CLÍNICAS
 
 Cada controle deve seguir EXATAMENTE o formato abaixo:
 
-"DD/MM: Estado térmico | FC x–y | FR a–b | PAM c–d | SAT e–f | HGT g–h | ADM i ml | DU j ml | BH +/− k ml | Dej ..."
+"DD/MM: Estado térmico | FC x–y | FR a–b | PAM c–d | SAT e–f | HGT g–h | ADM i | DU j | BH +/− k | Dej ..."
 
 ### REGRAS ESPECÍFICAS:
 
@@ -62,10 +62,12 @@ Cada controle deve seguir EXATAMENTE o formato abaixo:
 - SAT SEM símbolo "%".
 - SAT sempre em CAIXA ALTA.
 
-🔹 ENTRADAS  
+🔹 ENTRADAS (ADMINISTRAÇÃO HÍDRICA)  
 - NÃO discriminar VO, EV, NE.
-- Informar APENAS o TOTAL administrado como:
-  "ADM xxxx ml"
+- NÃO listar volumes individuais.
+- Informar APENAS o TOTAL DE GANHOS já calculado no texto médico.
+- NÃO somar valores.
+- Se o total não estiver explicitamente descrito, OMITIR ADM.
 
 🔹 SAÍDAS  
 - NÃO usar o termo "Saídas".
@@ -75,7 +77,7 @@ Cada controle deve seguir EXATAMENTE o formato abaixo:
 
 🔹 BALANÇO HÍDRICO  
 - Informar sempre com sinal:
-  "+xxx ml" ou "-xxx ml"
+  "+xxx" ou "-xxx"
 
 🔹 DEJEÇÕES  
 - Usar:
