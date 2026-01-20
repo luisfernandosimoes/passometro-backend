@@ -9,6 +9,12 @@ app.use(cors());
 app.use(express.json({ limit: "5mb" }));
 
 /* =====================================================
+   ESTADO GLOBAL DO PASSÔMETRO (USO ONLINE)
+===================================================== */
+
+let passometroGlobal = [];
+
+/* =====================================================
    FUNÇÕES UTILITÁRIAS — IDENTIFICAÇÃO
 ===================================================== */
 
@@ -75,6 +81,27 @@ function formatarIdentificacaoFinal(ident = {}) {
 /* =====================================================
    ROTAS
 ===================================================== */
+
+/* ===============================
+   PASSÔMETRO — ONLINE (ESTADO)
+=============================== */
+
+// Ler passômetro
+app.get("/api/passometro", (req, res) => {
+  res.json(passometroGlobal);
+});
+
+// Salvar passômetro
+app.post("/api/passometro", (req, res) => {
+  const { pacientes } = req.body;
+
+  if (!Array.isArray(pacientes)) {
+    return res.status(400).json({ error: "Formato inválido" });
+  }
+
+  passometroGlobal = pacientes;
+  res.json({ status: "ok" });
+});
 
 app.post("/api/gerar-passometro", async (req, res) => {
   try {
